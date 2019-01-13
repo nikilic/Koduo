@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Koduo</string>
+    <string name="username">Korisničko ime</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Uloguj se</string>
+    <string name="register">Registruj se</string>
+    <string name="email">E-mail</string>
+    <string name="confirm_password">Potvrdi password</string>
+    <string name="already_having_account">Već imaš nalog?</string>
+    <string name="log_in">Uloguj se</string>
+    <string name="not_having_account">Nemaš nalog?</string>
+    <string name="sign_up">Registruj se</string>
+    <string name="logout">Izloguj se</string>
+</resources>
