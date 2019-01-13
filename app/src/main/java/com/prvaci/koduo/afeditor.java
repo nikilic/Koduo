@@ -1,5 +1,7 @@
 package com.prvaci.koduo;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -331,6 +333,32 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
     }
 
     public void addItem(View view){
-
+        if(type.equals("act")) {
+            Intent intent = new Intent(this, actadditem.class);
+            intent.putExtra("codebefore", code);
+            intent.putExtra("Acts", Acts);
+            intent.putExtra("Funs", Funs);
+            intent.putExtra("functionname", functionname);
+            intent.putExtra("type", type);
+            intent.putExtra("shortname", shortname);
+            intent.putExtra("name", name);
+            intent.putExtra("main", main);
+            intent.putExtra("description", description);
+            intent.putExtra("icon", icon);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, funadditem.class);
+            intent.putExtra("codebefore", code);
+            intent.putExtra("Acts", Acts);
+            intent.putExtra("Funs", Funs);
+            intent.putExtra("functionname", functionname);
+            intent.putExtra("type", type);
+            intent.putExtra("shortname", shortname);
+            intent.putExtra("name", name);
+            intent.putExtra("main", main);
+            intent.putExtra("description", description);
+            intent.putExtra("icon", icon);
+            startActivity(intent);
+        }
     }
 }

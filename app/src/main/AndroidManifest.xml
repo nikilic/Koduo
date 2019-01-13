@@ -38,9 +38,16 @@
         <activity
             android:name=".afitemeditor"
             android:noHistory="true" />
-        <activity android:name=".updateapp" />
-        <activity android:name=".addnewapp" />
-        <activity android:name=".addaf"></activity>
+        <activity android:name=".updateapp"
+            android:noHistory="true"  />
+        <activity android:name=".addnewapp"
+            android:noHistory="true"  />
+        <activity android:name=".addaf"
+            android:noHistory="true"  />
+        <activity android:name=".actadditem"
+            android:noHistory="true"  />
+        <activity android:name=".funadditem"
+            android:noHistory="true" ></activity>
     </application>
 
 </manifest>
