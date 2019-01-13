@@ -1,5 +1,7 @@
 package com.prvaci.koduo;
 
+import android.content.Context;
+
 public class AppDashboard {
     String name;
     String runs;

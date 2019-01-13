@@ -2,6 +2,7 @@ package com.prvaci.koduo;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,10 +10,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
 
 import org.json.JSONException;
 
@@ -32,15 +38,16 @@ public class viseditor extends AppCompatActivity implements EditorAFAdapter.Item
     RecyclerView recyclerActs;
     EditorAFAdapter actsAdapter;
     RecyclerView.LayoutManager actsLayoutManager;
-    EditText etName,etDescription;
+    EditText etName,etDescription,etIcon;
     Spinner spMain;
     int pos;
-
+    ImageView ivIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viseditor);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         Intent start =  getIntent();
         shortname = start.getStringExtra("shortname");
@@ -52,15 +59,26 @@ public class viseditor extends AppCompatActivity implements EditorAFAdapter.Item
         icon = start.getStringExtra("icon");
         Log.i("KODUOCODE",code);
         Log.i("SHORTNAME",shortname);
+        ivIcon = findViewById(R.id.ivIcon);
+        ImageRequest ir = new ImageRequest(icon, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                // callback
+                ivIcon.setImageBitmap(response);
+            }
+        }, 1024, 1024, null, null);
+        MySingleton.getInstance(this).addToRequestQueue(ir);
 
         TextView tvShortname = findViewById(R.id.tvShortname);
         etName = findViewById(R.id.etName);
         etDescription = findViewById(R.id.etDescription);
+        etIcon = findViewById(R.id.etIcon);
         spMain = findViewById(R.id.spMain);
 
         tvShortname.setText(shortname);
         etName.setText(name);
         etDescription.setText(description);
+        etIcon.setText(icon);
 
         Acts = new HashMap<>();
         Funs = new HashMap<>();
@@ -168,10 +186,10 @@ public class viseditor extends AppCompatActivity implements EditorAFAdapter.Item
         intent.putExtra("Acts",Acts);
         intent.putExtra("Funs",Funs);
         intent.putExtra("shortname",shortname);
-        intent.putExtra("name",name);
-        intent.putExtra("main",main);
-        intent.putExtra("description",description);
-        intent.putExtra("icon",icon);
+        intent.putExtra("name",etName.getText().toString());
+        intent.putExtra("main",spMain.getSelectedItem().toString());
+        intent.putExtra("description",etDescription.getText().toString());
+        intent.putExtra("icon",etIcon.getText().toString());
         startActivity(intent);
     }
 
@@ -182,7 +200,7 @@ public class viseditor extends AppCompatActivity implements EditorAFAdapter.Item
         intent.putExtra("main",spMain.getSelectedItem().toString());
         intent.putExtra("description",etDescription.getText().toString());
         intent.putExtra("code",code);
-        intent.putExtra("icon",icon);
+        intent.putExtra("icon",etIcon.getText().toString());
         startActivity(intent);
     }
 
@@ -217,7 +235,7 @@ public class viseditor extends AppCompatActivity implements EditorAFAdapter.Item
         intent.putExtra("main",spMain.getSelectedItem().toString());
         intent.putExtra("description",etDescription.getText().toString());
         intent.putExtra("code",code);
-        intent.putExtra("icon",icon);
+        intent.putExtra("icon",etIcon.getText().toString());
         intent.putExtra("Acts",Acts);
         intent.putExtra("Funs",Funs);
         startActivity(intent);
@@ -231,7 +249,7 @@ public class viseditor extends AppCompatActivity implements EditorAFAdapter.Item
         intent.putExtra("main",spMain.getSelectedItem().toString());
         intent.putExtra("description",etDescription.getText().toString());
         intent.putExtra("code",code);
-        intent.putExtra("icon",icon);
+        intent.putExtra("icon",etIcon.getText().toString());
         intent.putExtra("Acts",Acts);
         intent.putExtra("Funs",Funs);
         startActivity(intent);

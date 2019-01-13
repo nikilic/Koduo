@@ -1,11 +1,16 @@
 package com.prvaci.koduo;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +21,7 @@ public class appstart extends AppCompatActivity {
 
     HashMap<String, String> SysVar, UserVar, Acts, Funs;
     String appcode,name,author,description,icon,runs,main;
+    ImageView ivIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,15 @@ public class appstart extends AppCompatActivity {
         TextView tvAuthor = findViewById(R.id.tvAuthor);
         TextView tvDescription = findViewById(R.id.tvDescription);
         TextView tvRuns = findViewById(R.id.tvRuns);
+        ivIcon = findViewById(R.id.ivIcon);
+        ImageRequest ir = new ImageRequest(icon, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                // callback
+                ivIcon.setImageBitmap(response);
+            }
+        }, 1024, 1024, null, null);
+        MySingleton.getInstance(this).addToRequestQueue(ir);
         tvName.setText(name);
         tvAuthor.setText("Autor aplikacije: " + author);
         tvDescription.setText(description);
