@@ -218,18 +218,22 @@ public class viseditor extends AppCompatActivity implements EditorAFAdapter.Item
         intent.putExtra("description",etDescription.getText().toString());
         intent.putExtra("code",code);
         intent.putExtra("icon",icon);
+        intent.putExtra("Acts",Acts);
+        intent.putExtra("Funs",Funs);
         startActivity(intent);
     }
 
     public void addFun(View view){
         Intent intent = new Intent(this,addaf.class);
-        intent.putExtra("type","act");
+        intent.putExtra("type","fun");
         intent.putExtra("shortname",shortname);
         intent.putExtra("name",etName.getText().toString());
         intent.putExtra("main",spMain.getSelectedItem().toString());
         intent.putExtra("description",etDescription.getText().toString());
         intent.putExtra("code",code);
         intent.putExtra("icon",icon);
+        intent.putExtra("Acts",Acts);
+        intent.putExtra("Funs",Funs);
         startActivity(intent);
     }
 }

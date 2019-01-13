@@ -74,6 +74,12 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
                 afList.set(position,afList.get(position+1));
                 afList.set(position+1,temp);
                 adapter.notifyDataSetChanged();
+                String newcode = "";
+                for(AFEditorItem item : afList){
+                    newcode += item.getCode()+"\n";
+                }
+                code = newcode;
+                Acts.put(functionname,"\n"+code);
             }
         }else if(view.getId() == R.id.bUp){
             if(position != 0){
@@ -81,10 +87,22 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
                 afList.set(position,afList.get(position-1));
                 afList.set(position-1,temp);
                 adapter.notifyDataSetChanged();
+                String newcode = "";
+                for(AFEditorItem item : afList){
+                    newcode += item.getCode()+"\n";
+                }
+                code = newcode;
+                Acts.put(functionname,"\n"+code);
             }
         }else if(view.getId() == R.id.bDelete){
             afList.remove(position);
             adapter.notifyDataSetChanged();
+            String newcode = "";
+            for(AFEditorItem item : afList){
+                newcode += item.getCode()+"\n";
+            }
+            code = newcode;
+            Acts.put(functionname,"\n"+code);
         }else{
             String codebefore = "";
             String codeafter = "";
@@ -156,6 +174,7 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
                     ifcode += line + "\n";
                     line = lineReader(codeReader);
                 }
+                ifcode += "endif";
                 item.setCode(ifcode);
                 afList.add(item);
             }
@@ -205,6 +224,7 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
                     ifcode += line + "\n";
                     line = lineReader(codeReader);
                 }
+                ifcode += "endif";
                 item.setCode(ifcode);
                 afList.add(item);
             }
@@ -308,5 +328,9 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
 
     public void goBack(){
         super.onBackPressed();
+    }
+
+    public void addItem(View view){
+
     }
 }
