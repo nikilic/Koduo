@@ -28,7 +28,8 @@
         <activity android:name=".UserActivity" />
         <activity android:name=".appeditor" />
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".DashboardApp" />
+        <activity android:name=".DashboardApp"
+            android:noHistory="true" />
         <activity
             android:name=".viseditor"
             android:noHistory="true" />

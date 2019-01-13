@@ -1,5 +1,6 @@
 package com.prvaci.koduo;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class appstart extends AppCompatActivity {
     HashMap<String, String> SysVar, UserVar, Acts, Funs;
     String appcode,name,author,description,icon,runs,main;
     ImageView ivIcon;
+    ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +50,17 @@ public class appstart extends AppCompatActivity {
         TextView tvDescription = findViewById(R.id.tvDescription);
         TextView tvRuns = findViewById(R.id.tvRuns);
         ivIcon = findViewById(R.id.ivIcon);
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Učitavanje...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         ImageRequest ir = new ImageRequest(icon, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-                // callback
+                pDialog.dismiss();
                 ivIcon.setImageBitmap(response);
             }
         }, 1024, 1024, null, null);
@@ -113,28 +122,5 @@ public class appstart extends AppCompatActivity {
             Log.e("IO Exception","ERROR 1 - IO EXCEPTION");
         }
         return "error";
-    }
-
-    public String getVar(String line, int pos){
-        String[] linesplit = line.split(" ");
-        if((""+linesplit[pos].toCharArray()[0]+linesplit[pos].toCharArray()[1]).equals("__")){
-            return SysVar.get(linesplit[pos])+"";
-        }
-        else if((""+linesplit[pos].toCharArray()[0]).equals("\"")){
-            return line.split("\"")[1];
-        }
-        else{
-            return UserVar.get(linesplit[pos])+"";
-        }
-    }
-
-    public static int countSubstring(String subStr, String str) {
-        int count = 0;
-        for (int i = 0; i < str.length(); i++) {
-            if (str.substring(i).startsWith(subStr)) {
-                count++;
-            }
-        }
-        return count;
     }
 }

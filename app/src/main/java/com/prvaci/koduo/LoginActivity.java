@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         Button register = findViewById(R.id.btnLoginRegister);
         Button login = findViewById(R.id.btnLogin);
 
-        //Launch Registration screen when Register Button is clicked
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Retrieve the data entered in the edit texts
                 username = etUsername.getText().toString().toLowerCase().trim();
                 password = etPassword.getText().toString().trim();
                 if (validateInputs()) {
@@ -71,9 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Launch Dashboard Activity on Successful Login
-     */
     private void loadDashboard() {
         Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
         startActivity(i);
@@ -81,24 +76,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Display Progress bar while Logging in
-     */
-
     private void displayLoader() {
         pDialog = new ProgressDialog(LoginActivity.this);
-        pDialog.setMessage("Logging In.. Please wait...");
+        pDialog.setMessage("Logovanje... Molimo sačekajte...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
-
     }
 
     private void login() {
         displayLoader();
         JSONObject request = new JSONObject();
         try {
-            //Populate the request parameters
             request.put(KEY_USERNAME, username);
             request.put(KEY_PASSWORD, password);
 
@@ -111,18 +100,18 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         pDialog.dismiss();
                         try {
-                            //Check if user got logged in successfully
-
                             if (response.getInt(KEY_STATUS) == 0) {
                                 session.loginUser(username,response.getString(KEY_EMAIL));
                                 loadDashboard();
 
                             }else{
                                 Toast.makeText(getApplicationContext(),
-                                        response.getString(KEY_MESSAGE), Toast.LENGTH_SHORT).show();
+                                        "Pogrešna kombinacija korisničkog imena i passworda", Toast.LENGTH_SHORT).show();
 
                             }
                         } catch (JSONException e) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Greška na serveru", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -131,30 +120,22 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pDialog.dismiss();
-
-                        //Display error message whenever an error occurs
                         Toast.makeText(getApplicationContext(),
-                                error.getMessage(), Toast.LENGTH_SHORT).show();
+                                "Greška na mreži", Toast.LENGTH_SHORT).show();
 
                     }
                 });
-
-        // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
-    /**
-     * Validates inputs and shows error if any
-     * @return
-     */
     private boolean validateInputs() {
         if(KEY_EMPTY.equals(username)){
-            etUsername.setError("Username cannot be empty");
+            etUsername.setError("Korisničko ime ne može biti prazno");
             etUsername.requestFocus();
             return false;
         }
         if(KEY_EMPTY.equals(password)){
-            etPassword.setError("Password cannot be empty");
+            etPassword.setError("Password ne može biti prazan");
             etPassword.requestFocus();
             return false;
         }

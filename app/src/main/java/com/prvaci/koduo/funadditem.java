@@ -1,6 +1,8 @@
 package com.prvaci.koduo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -104,5 +106,28 @@ public class funadditem extends AppCompatActivity {
         intent.putExtra("description",description);
         intent.putExtra("icon",icon);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Da li si siguran da želiš da izađeš bez sačuvanih promena?")
+                .setTitle("Povratak u meni");
+        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                goBack();
+            }
+        });
+        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void goBack(){
+        super.onBackPressed();
     }
 }

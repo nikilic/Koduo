@@ -1,5 +1,6 @@
 package com.prvaci.koduo;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 public class DashboardActivity extends AppCompatActivity implements RecyclerViewDashboardAdapter.ItemClickListener {
     private SessionHandler session;
-
+    ProgressDialog pDialog;
     JSONObject[] apps;
 
     RecyclerViewDashboardAdapter adapter;
@@ -35,6 +36,15 @@ public class DashboardActivity extends AppCompatActivity implements RecyclerView
         session = new SessionHandler(getApplicationContext());
         User user = session.getUserDetails();
 
+        TextView tvHello = findViewById(R.id.tvHello);
+        tvHello.setText("Zdravo " + user.getUsername());
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Učitavanje...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         JSONObject request = new JSONObject();
         try {
             request.put("author", user.getUsername());
@@ -45,6 +55,7 @@ public class DashboardActivity extends AppCompatActivity implements RecyclerView
                 (Request.Method.POST, "https://api.in.rs/koduo/getauthor.php", request, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        pDialog.dismiss();
                         try {
                             if (response.getInt("status") == 0) {
                                 apps = new JSONObject[Integer.parseInt(response.getString("appno"))];
@@ -67,6 +78,7 @@ public class DashboardActivity extends AppCompatActivity implements RecyclerView
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        pDialog.dismiss();
                         Toast.makeText(getApplicationContext(),
                                 error.getMessage(), Toast.LENGTH_SHORT).show();
                     }

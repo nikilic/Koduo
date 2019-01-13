@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public void StartApp(View view){
         code = "";
         EditText editime = findViewById(R.id.imeApp);
-        String ime = editime.getText().toString();
+        String ime = editime.getText().toString().toLowerCase();
         if(!ime.equals("")) {
             JSONObject request = new JSONObject();
             try {
@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                Toast.makeText(getApplicationContext(),
+                                        "Greška na serveru", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -66,12 +68,12 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Toast.makeText(getApplicationContext(),
-                                    error.getMessage(), Toast.LENGTH_SHORT).show();
+                                    "Greška na mreži", Toast.LENGTH_SHORT).show();
                         }
                     });
             MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
         }else{
-            Toast.makeText(this, "Ime aplikacije ne može biti prazno", Toast.LENGTH_SHORT).show();
+            editime.setError("Ime aplikacije ne može biti prazno");
         }
     }
 

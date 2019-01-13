@@ -94,7 +94,6 @@ public class deleteapp extends AppCompatActivity {
     }
 
     public void goBack(){
-        Intent intent = new Intent(this,DashboardActivity.class);
-        startActivity(intent);
+        super.onBackPressed();
     }
 }
