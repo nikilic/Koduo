@@ -11,4 +11,21 @@
     <string name="not_having_account">Nemaš nalog?</string>
     <string name="sign_up">Registruj se</string>
     <string name="logout">Izloguj se</string>
+
+    <!--WELCOME SCREEN-->
+    <string name="next">SLEDEĆE</string>
+    <string name="skip">PRESKOČI</string>
+    <string name="start">JASNO</string>
+
+    <string name="slide_1_title">Koduo</string>
+    <string name="slide_1_desc">Kreiraj svoj svet!</string>
+
+    <string name="slide_2_title">Pusti mašti na volju!</string>
+    <string name="slide_2_desc">Oslobodi svoju maštu i kreiraj sopstveni kviz, prezentaciju, aplikaciju ili nešto drugo!</string>
+
+    <string name="slide_3_title">Deli sa drugima!</string>
+    <string name="slide_3_desc">Odmah po kreiranju aplikaciju možeš podeliti sa svojim prijateljima!</string>
+
+    <string name="slide_4_title">Izmeni kod</string>
+    <string name="slide_4_desc">Izmeni svoju aplikaciju u svakom trenutku pomoću koda ili moćnog vizuelnog editora!</string>
 </resources>
