@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -39,14 +38,12 @@ public class MainActivity extends AppCompatActivity {
         code = "";
         EditText editime = findViewById(R.id.imeApp);
         String ime = editime.getText().toString().toLowerCase();
-
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Učitavanje...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
-
         if(!ime.equals("")) {
+            pDialog = new ProgressDialog(this);
+            pDialog.setMessage("Učitavanje...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
             JSONObject request = new JSONObject();
             try {
                 request.put("shortname", ime);
@@ -90,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                                     "Greška na mreži", Toast.LENGTH_SHORT).show();
                         }
                     });
-            MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+            VolleySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
         }else{
             editime.setError("Ime aplikacije ne može biti prazno");
         }

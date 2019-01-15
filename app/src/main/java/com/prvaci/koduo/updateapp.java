@@ -85,7 +85,7 @@ public class updateapp extends AppCompatActivity {
                     }
                 });
 
-        MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
     public void appUpdateOk(){
@@ -107,20 +107,13 @@ public class updateapp extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Da li si siguran da želiš da izađeš bez sačuvanih promena?")
-                .setTitle("Povratak u meni");
-        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                goBack();
-            }
-        });
-        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        Intent intent = new Intent(this, viseditor.class);
+        intent.putExtra("shortname", shortname);
+        intent.putExtra("name", name);
+        intent.putExtra("main", main);
+        intent.putExtra("description", description);
+        intent.putExtra("code", code);
+        intent.putExtra("icon", icon);
+        startActivity(intent);
     }
 }

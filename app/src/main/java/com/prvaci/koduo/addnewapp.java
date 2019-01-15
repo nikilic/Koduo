@@ -1,7 +1,6 @@
 package com.prvaci.koduo;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -71,7 +70,7 @@ public class addnewapp extends AppCompatActivity {
 
                     }
                 });
-        MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
     public void appCreateOk(){

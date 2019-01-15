@@ -76,7 +76,7 @@ public class DashboardApp extends AppCompatActivity {
                                 error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-        MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
     public void loadIcon(){
@@ -88,7 +88,7 @@ public class DashboardApp extends AppCompatActivity {
                 ivIcon.setImageBitmap(response);
             }
         }, 1024, 1024, null, null);
-        MySingleton.getInstance(this).addToRequestQueue(ir);
+        VolleySingleton.getInstance(this).addToRequestQueue(ir);
     }
 
     public void DisplayApp(){

@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -117,7 +116,7 @@ public class DashboardActivity extends AppCompatActivity implements RecyclerView
                                 error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-        MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
 
         Button logoutBtn = findViewById(R.id.btnLogout);
 
@@ -181,7 +180,7 @@ public class DashboardActivity extends AppCompatActivity implements RecyclerView
                                 error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-        MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
     public void RecyclerSetup(){

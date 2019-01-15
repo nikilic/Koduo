@@ -22,15 +22,11 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.toolbox.ImageRequest;
 
-import org.json.JSONException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class viseditor extends AppCompatActivity implements EditorAFAdapter.ItemClickListener {
 
@@ -97,7 +93,7 @@ public class viseditor extends AppCompatActivity implements EditorAFAdapter.Item
                 ivIcon.setImageBitmap(response);
             }
         }, 1024, 1024, null, null);
-        MySingleton.getInstance(this).addToRequestQueue(ir);
+        VolleySingleton.getInstance(this).addToRequestQueue(ir);
 
         TextView tvShortname = findViewById(R.id.tvShortname);
         etName = findViewById(R.id.etName);

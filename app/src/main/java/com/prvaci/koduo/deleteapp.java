@@ -75,7 +75,7 @@ public class deleteapp extends AppCompatActivity {
                     }
                 });
 
-        MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
     public void appDeleteOk(){

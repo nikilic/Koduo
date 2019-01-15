@@ -1,16 +1,11 @@
 package com.prvaci.koduo;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
 import java.io.BufferedReader;
@@ -210,6 +204,7 @@ public class appact extends AppCompatActivity {
                         layoutparamstext.setMargins(32, 32, 32, 0);
                         layoutparamstext.gravity = Gravity.CENTER;
                         textView.setLayoutParams(layoutparamstext);
+                        textView.setGravity(Gravity.CENTER);
                         parent.addView(textView);
                     } else if (linesplit[1].equals("button")) {
                         String parameters = line.substring(11, line.length());
@@ -286,7 +281,7 @@ public class appact extends AppCompatActivity {
                                 imageView.setImageBitmap(response);
                             }
                         }, 1024, 1024, null, null);
-                        MySingleton.getInstance(this).addToRequestQueue(ir);
+                        VolleySingleton.getInstance(this).addToRequestQueue(ir);
                         LinearLayout.LayoutParams layoutparamsbutton = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT

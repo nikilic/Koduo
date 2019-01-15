@@ -80,7 +80,7 @@ public class ExploreActivity extends AppCompatActivity {
                                     "Greška na mreži", Toast.LENGTH_SHORT).show();
                         }
                     });
-            MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+            VolleySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
     void runapp(){

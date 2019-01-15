@@ -12,7 +12,7 @@ public class tutorial extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         WebView webView = new WebView(this);
         setContentView(webView);
-        webView.loadUrl("https://www.api.in.rs/koduo");
+        webView.loadUrl("https://www.api.in.rs/koduo/index.html");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
     }

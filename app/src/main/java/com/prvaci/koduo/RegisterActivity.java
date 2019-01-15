@@ -137,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     }
                 });
-        MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
     private boolean validateInputs() {

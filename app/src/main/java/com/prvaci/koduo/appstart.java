@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -82,7 +81,7 @@ public class appstart extends AppCompatActivity {
 
             }
         });
-        MySingleton.getInstance(this).addToRequestQueue(ir);
+        VolleySingleton.getInstance(this).addToRequestQueue(ir);
         tvName.setText(name);
         tvAuthor.setText("Autor aplikacije: " + author);
         tvDescription.setText(description);
