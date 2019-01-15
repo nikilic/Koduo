@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 
 public class afitemeditor extends AppCompatActivity {
@@ -43,8 +46,6 @@ public class afitemeditor extends AppCompatActivity {
         Intent start = getIntent();
         codebefore = start.getStringExtra("codebefore");
         codeafter = start.getStringExtra("codeafter");
-        Log.i("CODEBEFORE",codebefore);
-        Log.i("CODEAFTER",codeafter);
         itemcode = start.getStringExtra("itemcode");
         itemtype = start.getStringExtra("itemtype");
         shortname = start.getStringExtra("shortname");
@@ -87,14 +88,88 @@ public class afitemeditor extends AppCompatActivity {
                 vars = itemcode.substring(4);
                 count = 1;
                 break;
+            case "runfun":
+                tvCommand.setText("Pokreni fun");
+                tvProperty1.setText("Fun");
+                vars = itemcode.substring(7);
+                count = 1;
+                break;
+            case "textfield":
+                tvCommand.setText("Tekstualno polje");
+                tvProperty1.setText("Promenljiva za čuvanje");
+                vars = itemcode.substring(14);
+                count = 1;
+                break;
+            case "image":
+                tvCommand.setText("Slika");
+                tvProperty1.setText("URL slike");
+                vars = itemcode.substring(10);
+                count = 1;
+                break;
+            case "background":
+                tvCommand.setText("Podesi pozadinu");
+                tvProperty1.setText("Boja");
+                vars = itemcode.substring(11);
+                count = 1;
+                break;
+            case "merge":
+                tvCommand.setText("MERGE komanda");
+                tvProperty1.setText("Promenljiva 1");
+                tvProperty2.setText("Promenljiva 2");
+                vars = itemcode.substring(6);
+                count = 2;
+                break;
             case "if":
                 tvCommand.setText("IF komanda");
                 tvProperty1.setText("Promenljiva 1");
                 tvProperty2.setText("Promenljiva 2");
                 tvProperty3.setText("Ispunjen uslov");
                 tvProperty4.setText("Neispunjen uslov");
-                etProperty1.setText("");
-                //TODO if komanda
+                BufferedReader codeReader = new BufferedReader(new StringReader(itemcode));
+                String line = lineReader(codeReader);
+                int i = 0;
+                while(!line.equals("error")){
+                    String[] linesplit = line.split(" ");
+                    if(i == 0) {
+                        if(linesplit[1].toCharArray()[0] == '\"'){
+                            etProperty1.setText(line.split("\"")[1]);
+                            if(line.split("\"")[2].toCharArray()[4] == '\"'){
+                                etProperty2.setText(line.split("\"")[3]);
+                            }else{
+                                etProperty2.setText(line.split("\"")[2].split(" ")[2]);
+                            }
+                        }else{
+                            etProperty1.setText(linesplit[1]);
+                            if(linesplit[3].toCharArray()[0] == '\"'){
+                                etProperty2.setText(line.split("\"")[1]);
+                            }else{
+                                etProperty2.setText(linesplit[3]);
+                            }
+                        }
+                        i++;
+                    }
+                    else if(i == 1){
+                        if(!line.equals("else")) {
+                            if(!etProperty3.getText().toString().equals(""))
+                                etProperty3.setText(etProperty3.getText().toString()+"\n"+line);
+                            else
+                                etProperty3.setText(line);
+                        }else{
+                            i++;
+                        }
+                    }
+                    else if(i == 2){
+                        if(!line.equals("endif")){
+                            if(!etProperty4.getText().toString().equals(""))
+                                etProperty4.setText(etProperty4.getText().toString()+"\n"+line);
+                            else
+                                etProperty4.setText(line);
+                        }else{
+                            i++;
+                        }
+                    }
+                    line = lineReader(codeReader);
+                }
                 break;
             case "set":
                 tvCommand.setText("SET komanda");
@@ -264,14 +339,29 @@ public class afitemeditor extends AppCompatActivity {
             case "button":
                 functioncode += "add button "+etProperty1.getText()+","+etProperty2.getText()+"\n";
                 break;
+            case "textfield":
+                functioncode += "add textfield "+etProperty1.getText()+"\n";
+                break;
+            case "image":
+                functioncode += "add image "+etProperty1.getText()+"\n";
+                break;
+            case "background":
+                functioncode += "background "+etProperty1.getText()+"\n";
+                break;
+            case "merge":
+                functioncode += "merge "+etProperty1.getText()+","+etProperty2.getText()+"\n";
+                break;
             case "message":
                 functioncode += "message "+etProperty1.getText()+"\n";
                 break;
             case "run":
                 functioncode += "run "+etProperty1.getText()+"\n";
                 break;
+            case "runfun":
+                functioncode += "runfun "+etProperty1.getText()+"\n";
+                break;
             case "if":
-                //TODO if komanda
+                functioncode += "if "+etProperty1.getText()+" is "+etProperty2.getText()+"\n"+etProperty3.getText()+"\nelse\n"+etProperty4.getText()+"\nendif\n";
                 break;
             case "set":
                 functioncode += etProperty1.getText()+" set "+etProperty2.getText()+"\n";
@@ -284,7 +374,6 @@ public class afitemeditor extends AppCompatActivity {
                 break;
         }
         functioncode += codeafter;
-        Log.i("FUNCTIONCODE",functioncode);
         if(type.equals("act"))
             Acts.put(functionname,functioncode);
         else
@@ -324,5 +413,24 @@ public class afitemeditor extends AppCompatActivity {
 
     public void goBack(){
         super.onBackPressed();
+    }
+
+    static String lineReader(BufferedReader reader){
+        String line;
+        try {
+            while(true) {
+                line = reader.readLine();
+                if (line != null) {
+                    if (!line.trim().isEmpty()) {
+                        return line;
+                    }
+                }else{
+                    return "error";
+                }
+            }
+        } catch(IOException e) {
+            Log.e("IO Exception","ERROR 1 - IO EXCEPTION");
+        }
+        return "error";
     }
 }

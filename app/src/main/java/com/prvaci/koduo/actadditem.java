@@ -37,8 +37,12 @@ public class actadditem extends AppCompatActivity {
 
         Button bText = findViewById(R.id.bText);
         Button bButton = findViewById(R.id.bButton);
+        Button bTextfield = findViewById(R.id.bTextfield);
+        Button bImage = findViewById(R.id.bImage);
         Button bIf = findViewById(R.id.bIf);
         Button bSet = findViewById(R.id.bSet);
+        Button bMerge = findViewById(R.id.bMerge);
+        Button bBackground = findViewById(R.id.bBackground);
         bText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +59,22 @@ public class actadditem extends AppCompatActivity {
                 runItemEditor();
             }
         });
+        bTextfield.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemcode = "add textfield var1";
+                itemtype = "textfield";
+                runItemEditor();
+            }
+        });
+        bImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemcode = "add image \"Promeni me\"";
+                itemtype = "image";
+                runItemEditor();
+            }
+        });
         bIf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +88,22 @@ public class actadditem extends AppCompatActivity {
             public void onClick(View v) {
                 itemcode = "var1 set \"Promeni me\"";
                 itemtype = "set";
+                runItemEditor();
+            }
+        });
+        bMerge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemcode = "merge var1,var2";
+                itemtype = "merge";
+                runItemEditor();
+            }
+        });
+        bBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemcode = "background \"#000000\"";
+                itemtype = "background";
                 runItemEditor();
             }
         });

@@ -1,13 +1,11 @@
 package com.prvaci.koduo;
 
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -18,35 +16,29 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+public class ExploreActivity extends AppCompatActivity {
 
     String code,name,author,description,icon,runs,main;
-    ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        Intent start = getIntent();
-        int error = start.getIntExtra("error",0);
-        if(error == 1){
-            Toast.makeText(this, "Došlo je do greške u aplikaciji", Toast.LENGTH_SHORT).show();
-        }
+        setContentView(R.layout.activity_explore);
     }
 
-    public void StartApp(View view){
-        code = "";
-        EditText editime = findViewById(R.id.imeApp);
-        String ime = editime.getText().toString().toLowerCase();
+    public void startBasic(View view){
+        runApp("probnaapp");
+    }
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Učitavanje...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
+    public void startQuiz(View view){
+        runApp("quizapp");
+    }
 
-        if(!ime.equals("")) {
+    public void startPres(View view){
+        runApp("presapp");
+    }
+
+    public void runApp(String ime){
             JSONObject request = new JSONObject();
             try {
                 request.put("shortname", ime);
@@ -57,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                     (Request.Method.POST, "https://api.in.rs/koduo/getapp.php", request, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            pDialog.dismiss();
                             try {
                                 if (response.getInt("status") == 0) {
                                     code = response.getString("code");
@@ -69,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                                     main = response.getString("main");
                                     runapp();
                                 } else if (response.getInt("status") == 1) {
-                                    Toast.makeText(MainActivity.this, "Aplikacija nije pronađena", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ExploreActivity.this, "Aplikacija nije pronađena", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(getApplicationContext(),
                                             response.getString("message"), Toast.LENGTH_SHORT).show();
@@ -85,15 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            pDialog.dismiss();
                             Toast.makeText(getApplicationContext(),
                                     "Greška na mreži", Toast.LENGTH_SHORT).show();
                         }
                     });
             MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
-        }else{
-            editime.setError("Ime aplikacije ne može biti prazno");
-        }
     }
 
     void runapp(){
@@ -105,17 +92,21 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("icon",icon);
         intent.putExtra("runs",runs);
         intent.putExtra("main",main);
-
         startActivity(intent);
     }
 
-    public void login(View view){
-        Intent intent = new Intent(this,LoginActivity.class);
+    public void restartTutorial(View view){
+        SharedPreferences sharedPref = this.getSharedPreferences(
+                "prvaci-koduo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("IsFirstTimeLaunch",true);
+        editor.putBoolean("DashboardFirstTime",true);
+        editor.putBoolean("VisEditorFirstTime",true);
+        editor.putBoolean("AFEditorFirstTime",true);
+        editor.commit();
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-    }
-
-    public void exampleApps(View view){
-        Intent intent = new Intent(this,ExploreActivity.class);
-        startActivity(intent);
+        finish();
     }
 }

@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#304769"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingTop="25dp"
+    android:paddingBottom="30dp"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp">
+
+    <Button
+        android:id="@+id/button16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="#f05924"
+        android:textColor="@android:color/white"
+        android:text="Otvori probnu aplikaciju"
+        android:onClick="startBasic" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="#f05924"
+        android:onClick="startQuiz"
+        android:text="Otvori kviz"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/button15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="#f05924"
+        android:textColor="@android:color/white"
+        android:onClick="startPres"
+        android:text="Otvori prezentaciju" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#f05924"
+        android:onClick="restartTutorial"
+        android:text="Ponovi uvod"
+        android:textColor="@android:color/white" />
+
+
+</LinearLayout>

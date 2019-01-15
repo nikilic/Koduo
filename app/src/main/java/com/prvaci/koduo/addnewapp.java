@@ -38,7 +38,6 @@ public class addnewapp extends AppCompatActivity {
     public void createNew(View view){
         JSONObject request = new JSONObject();
         try {
-            //Populate the request parameters
             request.put("author", author);
             request.put("password", etPassword.getText().toString());
             request.put("shortname", etShortname.getText().toString());
@@ -46,18 +45,15 @@ public class addnewapp extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.i("KODUOJSON",request.toString());
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest
                 (Request.Method.POST, "https://api.in.rs/koduo/addapp.php", request, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             if (response.getString("updatemess").equals("ok")) {
-                                Log.i("KODUOMESS",response.getString("updatemess"));
                                 appCreateOk();
                             }else if(response.getString("status").equals("0")){
                                 Toast.makeText(getApplicationContext(), "Skraćeno ime aplikacije zauzeto", Toast.LENGTH_SHORT).show();
-                                Log.i("KODUOSTATUS",response.getInt("status")+" "+response.getString("message"));
                             }else{
                                 Toast.makeText(getApplicationContext(), "Pogrešan password", Toast.LENGTH_SHORT).show();
                             }
@@ -75,8 +71,6 @@ public class addnewapp extends AppCompatActivity {
 
                     }
                 });
-
-        // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
@@ -94,7 +88,6 @@ public class addnewapp extends AppCompatActivity {
     }
 
     public void goBack(){
-        Intent intent = new Intent(this,DashboardActivity.class);
-        startActivity(intent);
+        super.onBackPressed();
     }
 }

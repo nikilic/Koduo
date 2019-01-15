@@ -40,6 +40,8 @@ public class funadditem extends AppCompatActivity {
         Button bWeb = findViewById(R.id.bWeb);
         Button bIf = findViewById(R.id.bIf);
         Button bSet = findViewById(R.id.bSet);
+        Button bMerge = findViewById(R.id.bMerge);
+        Button bRunfun = findViewById(R.id.bRunfun);
         bMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +87,22 @@ public class funadditem extends AppCompatActivity {
             public void onClick(View v) {
                 itemcode = "var1 set \"Promeni me\"";
                 itemtype = "set";
+                runItemEditor();
+            }
+        });
+        bMerge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemcode = "merge var1,var2";
+                itemtype = "merge";
+                runItemEditor();
+            }
+        });
+        bRunfun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemcode = "runfun fun1";
+                itemtype = "runfun";
                 runItemEditor();
             }
         });

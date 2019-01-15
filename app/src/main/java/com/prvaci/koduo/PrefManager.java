@@ -8,11 +8,9 @@ public class PrefManager {
     SharedPreferences.Editor editor;
     Context _context;
 
-    // shared pref mode
     int PRIVATE_MODE = 0;
 
-    // Shared preferences file name
-    private static final String PREF_NAME = "androidhive-welcome";
+    private static final String PREF_NAME = "prvaci-koduo";
 
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
 

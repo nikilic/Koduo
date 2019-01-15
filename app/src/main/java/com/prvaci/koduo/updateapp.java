@@ -85,7 +85,6 @@ public class updateapp extends AppCompatActivity {
                     }
                 });
 
-        // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 
@@ -104,5 +103,24 @@ public class updateapp extends AppCompatActivity {
 
     public void goBack(){
         super.onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Da li si siguran da želiš da izađeš bez sačuvanih promena?")
+                .setTitle("Povratak u meni");
+        builder.setPositiveButton("Da", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                goBack();
+            }
+        });
+        builder.setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

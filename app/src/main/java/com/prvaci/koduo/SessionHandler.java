@@ -26,41 +26,24 @@ public class SessionHandler {
         mEditor.putString(KEY_EMAIL, fullName);
         Date date = new Date();
 
-        //Set user session for next 7 days
         long millis = date.getTime() + (7 * 24 * 60 * 60 * 1000);
         mEditor.putLong(KEY_EXPIRES, millis);
         mEditor.commit();
     }
 
-    /**
-     * Checks whether user is logged in
-     *
-     * @return
-     */
     public boolean isLoggedIn() {
         Date currentDate = new Date();
 
         long millis = mPreferences.getLong(KEY_EXPIRES, 0);
 
-        /* If shared preferences does not have a value
-         then user is not logged in
-         */
         if (millis == 0) {
             return false;
         }
         Date expiryDate = new Date(millis);
 
-        /* Check if session is expired by comparing
-        current date and Session expiry date
-        */
         return currentDate.before(expiryDate);
     }
 
-    /**
-     * Fetches and returns user details
-     *
-     * @return user details
-     */
     public User getUserDetails() {
         //Check if user is logged in first
         if (!isLoggedIn()) {
@@ -74,9 +57,6 @@ public class SessionHandler {
         return user;
     }
 
-    /**
-     * Logs out user by clearing the session
-     */
     public void logoutUser(){
         mEditor.clear();
         mEditor.commit();

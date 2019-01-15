@@ -15,34 +15,29 @@ public class EditorAFAdapter extends RecyclerView.Adapter<EditorAFAdapter.ViewHo
     private LayoutInflater mInflater;
     private EditorAFAdapter.ItemClickListener mClickListener;
 
-    // data is passed into the constructor
     EditorAFAdapter(Context context, List<String> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
 
-    // inflates the row layout from xml when needed
     @Override
     public EditorAFAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.recyclerview_editoraf, parent, false);
         return new EditorAFAdapter.ViewHolder(view);
     }
 
-    // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(EditorAFAdapter.ViewHolder holder, int position) {
         String name = mData.get(position);
         holder.tvName.setText(name);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
 
-    // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvName;
 
@@ -58,12 +53,10 @@ public class EditorAFAdapter extends RecyclerView.Adapter<EditorAFAdapter.ViewHo
         }
     }
 
-    // allows clicks events to be caught
     void setClickListener(EditorAFAdapter.ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 
-    // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }

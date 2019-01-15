@@ -12,15 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".appstart"
             android:noHistory="true" />
         <activity android:name=".appact" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".UserActivity" />
-        <activity android:name=".appeditor" />
         <activity android:name=".DashboardActivity" />
         <activity
             android:name=".DashboardApp"
@@ -53,7 +55,8 @@
             android:name=".codeeditor"
             android:noHistory="true" />
         <activity android:name=".deleteapp" />
-        <activity android:name=".WelcomeActivity"
+        <activity
+            android:name=".WelcomeActivity"
             android:theme="@style/AppTheme.WelcomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,6 +64,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ExploreActivity" />
+        <activity android:name=".tutorial"></activity>
     </application>
 
 </manifest>

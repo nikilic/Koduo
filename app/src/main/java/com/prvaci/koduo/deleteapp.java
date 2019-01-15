@@ -40,7 +40,6 @@ public class deleteapp extends AppCompatActivity {
     public void deleteApp(View view){
         JSONObject request = new JSONObject();
         try {
-            //Populate the request parameters
             request.put("author", author);
             request.put("password",etPassword.getText().toString());
             request.put("shortname", shortname);
@@ -76,7 +75,6 @@ public class deleteapp extends AppCompatActivity {
                     }
                 });
 
-        // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
     }
 

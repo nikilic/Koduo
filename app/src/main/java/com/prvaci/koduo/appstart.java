@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 
 import java.io.BufferedReader;
@@ -43,6 +45,16 @@ public class appstart extends AppCompatActivity {
 
         SysVar.put("__black__","#000000");
         SysVar.put("__white__","#ffffff");
+        SysVar.put("__red__","#ff0000");
+        SysVar.put("__blue__","#0000ff");
+        SysVar.put("__green__","#00ff00");
+        SysVar.put("__yellow__","#ffff00");
+        SysVar.put("__cyan__","#00ffff");
+        SysVar.put("__magenta__","#ff00ff");
+        SysVar.put("__textsmall__","#16");
+        SysVar.put("__textnormal__","#20");
+        SysVar.put("__textlarge__","24");
+        SysVar.put("__appname__",name);
         initcode(appcode);
         setContentView(R.layout.activity_appstart);
         TextView tvName = findViewById(R.id.tvName);
@@ -63,7 +75,13 @@ public class appstart extends AppCompatActivity {
                 pDialog.dismiss();
                 ivIcon.setImageBitmap(response);
             }
-        }, 1024, 1024, null, null);
+        }, 1024, 1024, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pDialog.dismiss();
+
+            }
+        });
         MySingleton.getInstance(this).addToRequestQueue(ir);
         tvName.setText(name);
         tvAuthor.setText("Autor aplikacije: " + author);
@@ -90,15 +108,25 @@ public class appstart extends AppCompatActivity {
                 Acts.put(linesplit[1],"");
                 line = lineReader(codeReader);
                 while(!line.equals(";")){
-                    Acts.put(linesplit[1],Acts.get(linesplit[1])+"\n"+line);
-                    line = lineReader(codeReader);
+                    if(!line.equals("error")) {
+                        Acts.put(linesplit[1], Acts.get(linesplit[1]) + "\n" + line);
+                        line = lineReader(codeReader);
+                    }else{
+                        appError();
+                        break;
+                    }
                 }
             }else if(linesplit[0].equals("fun")){
                 Funs.put(linesplit[1],"");
                 line = lineReader(codeReader);
                 while(!line.equals(";")){
-                    Funs.put(linesplit[1],Funs.get(linesplit[1])+"\n"+line);
-                    line = lineReader(codeReader);
+                    if(!line.equals("error")) {
+                        Funs.put(linesplit[1], Funs.get(linesplit[1]) + "\n" + line);
+                        line = lineReader(codeReader);
+                    }else{
+                        appError();
+                        break;
+                    }
                 }
             }
             line = lineReader(codeReader);
@@ -120,7 +148,15 @@ public class appstart extends AppCompatActivity {
             }
         } catch(IOException e) {
             Log.e("IO Exception","ERROR 1 - IO EXCEPTION");
+            return "error";
         }
-        return "error";
+    }
+
+    public void appError(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("error",1);
+        startActivity(intent);
+        finish();
     }
 }

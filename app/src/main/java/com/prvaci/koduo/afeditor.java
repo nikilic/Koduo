@@ -2,8 +2,10 @@ package com.prvaci.koduo;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +39,28 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afeditor);
 
+        SharedPreferences sharedPref = this.getSharedPreferences(
+                "prvaci-koduo", Context.MODE_PRIVATE);
+        boolean firstTime = sharedPref.getBoolean("AFEditorFirstTime",true);
+        if(firstTime){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setMessage("Ovo je act/fun editor.\n\nOvde možeš da menjaš pojedinačne elemente" +
+                    " i komande svoje aplikacije.\n\nNe zaboravi da sačuvaš svoje izmene!")
+                    .setTitle("Act/fun editor");
+            builder.setPositiveButton("U redu", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("AFEditorFirstTime",false);
+            editor.apply();
+        }
+
         Intent start = getIntent();
         functionname = start.getStringExtra("functionname");
         type = start.getStringExtra("type");
@@ -56,7 +80,6 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
             code = Funs.get(functionname);
             funinit();
         }
-        Log.i("CODEAFEDITOR",code);
 
         RecyclerView recycler = findViewById(R.id.recyclerView);
         recycler.setHasFixedSize(true);
@@ -112,7 +135,6 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
             String line = lineReader(codeReader);
             int i = 0;
             while(!line.equals("error")){
-                Log.i("KODUOLINE",line);
                 String[] linesplit = line.split(" ");
                 if(i < position)
                     codebefore += line + "\n";
@@ -180,6 +202,22 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
                 item.setCode(ifcode);
                 afList.add(item);
             }
+            else if(linesplit[0].equals("merge")){
+                AFEditorItem item = new AFEditorItem();
+                item.setName("MERGE komanda");
+                item.setType("merge");
+                item.setData(line.substring(6));
+                item.setCode(line);
+                afList.add(item);
+            }
+            else if(linesplit[0].equals("background")){
+                AFEditorItem item = new AFEditorItem();
+                item.setName("Boja pozadine");
+                item.setType("background");
+                item.setData(line.substring(11));
+                item.setCode(line);
+                afList.add(item);
+            }
             else if(linesplit[0].equals("add")){
                 AFEditorItem item = new AFEditorItem();
                 if(linesplit[1].equals("text")){
@@ -190,6 +228,14 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
                     item.setName("Dugme");
                     item.setType("button");
                     item.setData(line.substring(11));
+                }else if(linesplit[1].equals("textfield")){
+                    item.setName("Tekstualno polje");
+                    item.setType("textfield");
+                    item.setData(line.substring(14));
+                }else if(linesplit[1].equals("image")){
+                    item.setName("Slika");
+                    item.setType("image");
+                    item.setData(line.substring(10));
                 }
                 item.setCode(line);
                 afList.add(item);
@@ -230,6 +276,14 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
                 item.setCode(ifcode);
                 afList.add(item);
             }
+            else if(linesplit[0].equals("merge")){
+                AFEditorItem item = new AFEditorItem();
+                item.setName("MERGE komanda");
+                item.setType("merge");
+                item.setData(line.substring(6));
+                item.setCode(line);
+                afList.add(item);
+            }
             else if(linesplit[0].equals("message")){
                 AFEditorItem item = new AFEditorItem();
                 item.setName("Poruka");
@@ -243,6 +297,14 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
                 item.setName("Pokreni act");
                 item.setType("run");
                 item.setData(line.substring(4));
+                item.setCode(line);
+                afList.add(item);
+            }
+            else if(linesplit[0].equals("runfun")){
+                AFEditorItem item = new AFEditorItem();
+                item.setName("Pokreni fun");
+                item.setType("runfun");
+                item.setData(line.substring(7));
                 item.setCode(line);
                 afList.add(item);
             }
@@ -291,13 +353,11 @@ public class afeditor extends AppCompatActivity implements AFEditorAdapter.ItemC
             appcode += "act "+key;
             appcode += Acts.get(key)+"\n";
             appcode += ";\n\n";
-            Log.i("KODUO?ACT",key);
         }
         for(String key : Funs.keySet()){
             appcode += "fun "+key;
             appcode += Funs.get(key)+"\n";
             appcode += ";\n\n";
-            Log.i("KODUO?FUN",key);
         }
         Intent intent = new Intent(this,viseditor.class);
         intent.putExtra("shortname",shortname);
